@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Святослав Рудых — подрядчик для студий: парсинг, боты, интеграции</title>
+<meta name="description" content="Беру хвосты у студий и агентств: парсинг, Telegram-боты, интеграции, автоматизация. Фикс от $60 или $10–12/час. Первая задача до 2 часов — бесплатно.">
+<style>
+  :root{
+    --bg:#0b0d10; --panel:#12161c; --line:#222a35; --text:#e8edf3; --muted:#9aa7b6;
+    --accent:#38bdf8; --accent2:#4ade80; --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  a{color:inherit;text-decoration:none}
+  header{
+    position:sticky;top:0;z-index:10;backdrop-filter:blur(12px);
+    background:rgba(11,13,16,.78);border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-weight:700;letter-spacing:-.02em}
+  .logo span{color:var(--accent)}
+  .nav nav{display:flex;align-items:center;gap:20px;white-space:nowrap}
+  .nav a.link{color:var(--muted);font-size:14px}
+  .nav a.link:hover{color:var(--text)}
+  .btn{
+    display:inline-block;padding:12px 20px;border-radius:12px;font-weight:600;font-size:15px;
+    border:1px solid transparent;transition:.18s;cursor:pointer
+  }
+  .btn-primary{background:var(--accent);color:#04121a}
+  .btn-primary:hover{transform:translateY(-1px);filter:brightness(1.06)}
+  .btn-ghost{border-color:var(--line);color:var(--text)}
+  .btn-ghost:hover{border-color:#3a4757;background:#141a21}
+  .hero{padding:76px 0 52px;position:relative;overflow:hidden}
+  .hero:before{
+    content:"";position:absolute;left:-20%;top:-60%;width:90%;height:160%;
+    background:radial-gradient(closest-side,rgba(56,189,248,.11),transparent 70%);
+    filter:blur(30px);pointer-events:none
+  }
+  .kicker{color:var(--accent);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+  h1{font-size:clamp(30px,5vw,50px);line-height:1.1;letter-spacing:-.03em;margin:16px 0 20px;max-width:22ch}
+  .lead{color:var(--muted);font-size:clamp(16px,2vw,19px);max-width:64ch}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+  .facts{display:flex;gap:32px;flex-wrap:wrap;margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}
+  .fact b{display:block;font-size:22px;letter-spacing:-.02em}
+  .fact span{color:var(--muted);font-size:13px}
+  section{padding:56px 0;border-top:1px solid var(--line)}
+  h2{font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 8px}
+  .sub{color:var(--muted);margin:0 0 32px;max-width:62ch}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:.2s}
+  .card:hover{border-color:#33414f;transform:translateY(-2px)}
+  .card h3{margin:0 0 8px;font-size:18px;letter-spacing:-.01em}
+  .card p{color:var(--muted);margin:0 0 14px;font-size:14.5px}
+  .price{font-size:15px;font-weight:700;color:var(--accent)}
+  .price small{color:var(--muted);font-weight:400}
+  ul.ticks{list-style:none;padding:0;margin:0}
+  ul.ticks li{padding-left:24px;position:relative;margin-bottom:10px;color:var(--muted);font-size:15px}
+  ul.ticks li:before{content:"✓";position:absolute;left:0;color:var(--accent2);font-weight:700}
+  ul.cross{list-style:none;padding:0;margin:0}
+  ul.cross li{padding-left:24px;position:relative;margin-bottom:10px;color:var(--muted);font-size:15px}
+  ul.cross li:before{content:"—";position:absolute;left:0;color:#94a3b8;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:15px;margin-top:8px}
+  th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
+  td b{color:var(--text)}
+  .case{display:grid;gap:8px}
+  .case .tag{font-size:12px;color:var(--accent2);letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+  .result{margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.22);font-size:14px;color:#bff5cf}
+  .steps{counter-reset:s;display:grid;gap:14px}
+  .step{display:flex;gap:14px;align-items:flex-start}
+  .step:before{
+    counter-increment:s;content:counter(s);flex:0 0 28px;height:28px;border-radius:50%;
+    background:#182028;border:1px solid var(--line);display:grid;place-items:center;
+    font-size:13px;font-weight:700;color:var(--accent)
+  }
+  .step p{margin:0;color:var(--muted);font-size:15px}
+  .step b{color:var(--text)}
+  .cta{background:linear-gradient(180deg,#0f1720,#0d1117);border:1px solid var(--line);border-radius:20px;padding:40px;text-align:center;margin:56px 0}
+  .cta h2{margin-bottom:12px}
+  .cta p{color:var(--muted);max-width:56ch;margin:0 auto 24px}
+  .mail{font-size:clamp(16px,2.4vw,22px);font-weight:700;letter-spacing:-.01em;color:var(--accent);word-break:break-all}
+  footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .chip{font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+  .note{margin-top:14px;padding:14px 16px;border-left:3px solid var(--accent);background:#0f151c;border-radius:8px;color:var(--muted);font-size:14.5px}
+  @media (max-width:640px){
+    .nav a.link{display:none}
+    .hero{padding:52px 0 36px}
+    .cta{padding:28px 20px}
+    .facts{gap:22px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">Святослав <span>Рудых</span></div>
+    <nav>
+      <a class="link" href="#tasks">Задачи</a>
+      <a class="link" href="#proof">Доказательства</a>
+      <a class="link" href="#terms">Условия</a>
+      <a class="btn btn-primary" href="mailto:svyatoslav.r2000@gmail.com?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%BF%D0%BE%D0%B4%D1%80%D1%8F%D0%B4%D1%87%D0%B8%D0%BA%D1%83">Написать</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="kicker">Подрядчик для студий и агентств</div>
+    <h1>Беру хвосты, которые невыгодно ставить в план</h1>
+    <p class="lead">
+      Парсинг, Telegram-боты, интеграции с Google Sheets и CRM, мелкая автоматизация.
+      Задачи от 2 часов, срок 1–5 дней, фикс или почасовая.
+      Первую задачу до 2 часов делаю бесплатно — чтобы вы проверили, как я работаю, без риска.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="mailto:svyatoslav.r2000@gmail.com?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%BF%D0%BE%D0%B4%D1%80%D1%8F%D0%B4%D1%87%D0%B8%D0%BA%D1%83">Отправить задачу</a>
+      <a class="btn btn-ghost" href="https://github.com/svyatoslavr2000-pixel/playwright-scraper-template" target="_blank" rel="noopener">Смотреть код</a>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>$10–12/час</b><span>или фикс $60–200</span></div>
+      <div class="fact"><b>до 2 часов</b><span>первая задача бесплатно</span></div>
+      <div class="fact"><b>1 час</b><span>время ответа в рабочее время</span></div>
+      <div class="fact"><b>15 ч/нед</b><span>свободная ёмкость</span></div>
+    </div>
+  </div>
+
+  <section id="tasks">
+    <h2>Что забираю</h2>
+    <p class="sub">Ровно те задачи, которые застревают между «сделаем сами» и «нет времени».</p>
+    <div class="grid">
+
+      <div class="card">
+        <h3>Парсинг и сбор данных</h3>
+        <p>Каталоги, цены, объявления, контакты, вакансии. Разовая выгрузка или регулярный сбор по расписанию.</p>
+        <ul class="ticks">
+          <li>Python + Playwright / requests</li>
+          <li>выгрузка в CSV, Excel, Google Sheets</li>
+          <li>защита от падений: ретраи, логи, проверки</li>
+        </ul>
+        <div class="price" style="margin-top:14px">фикс $60–200 <small>· 1–3 дня</small></div>
+      </div>
+
+      <div class="card">
+        <h3>Telegram- и MAX-боты</h3>
+        <p>Заявки, запись, оплата, уведомления, админка. Доработка чужого бота: починить, добавить шаг, прикрутить оплату.</p>
+        <ul class="ticks">
+          <li>aiogram 3, вебхуки, деплой на VPS</li>
+          <li>интеграция с CRM, Sheets, Google Calendar</li>
+          <li>правки в существующем коде — читаю и не ломаю</li>
+        </ul>
+        <div class="price" style="margin-top:14px">фикс $90–250 <small>· 2–5 дней</small></div>
+      </div>
+
+      <div class="card">
+        <h3>Интеграции и автоматизация</h3>
+        <p>Склеить сервисы, у которых «нет интеграции»: API, вебхуки, n8n, FastAPI-обёртки, отчёты по расписанию.</p>
+        <ul class="ticks">
+          <li>REST API, вебхуки, OAuth</li>
+          <li>Google Apps Script и Sheets</li>
+          <li>n8n-сценарии, cron-задачи</li>
+        </ul>
+        <div class="price" style="margin-top:14px">$10–12/час <small>· от 2 часов</small></div>
+      </div>
+
+    </div>
+
+    <div class="note">
+      <b>Чего не беру:</b> дизайн, мобильные приложения, вёрстку лендингов, 1С, «сделать всё под ключ за три дня».
+      Если задача не моя — скажу сразу и, если знаю, к кому идти.
+    </div>
+  </section>
+
+  <section id="proof">
+    <h2>Чем можно проверить до найма</h2>
+    <p class="sub">Не слова, а артефакты: код, тесты, живые страницы.</p>
+    <div class="grid">
+
+      <div class="card case">
+        <div class="tag">Open source · Python</div>
+        <h3>Шаблон парсера с тестами</h3>
+        <p>Каркас скрапера на Playwright: конфиг через YAML, ретраи, ограничение частоты, лог, экспорт в CSV. 21 тест, линтер чистый, CI зелёный, Docker.</p>
+        <div class="result">github.com/svyatoslavr2000-pixel/playwright-scraper-template — можно склонировать и прогнать тесты.</div>
+      </div>
+
+      <div class="card case">
+        <div class="tag">Кейс · Данные</div>
+        <h3>Сбор цен + автоотчёт</h3>
+        <p>Клиент собирал цены конкурентов вручную раз в неделю. Парсер + выгрузка в таблицу + подсветка изменений.</p>
+        <div class="result">2–3 часа ручной работы в неделю → 0.</div>
+      </div>
+
+      <div class="card case">
+        <div class="tag">Кейс · Мессенджеры</div>
+        <h3>Бот для MAX + исследование</h3>
+        <p>Спроектировал и реализовал бота в MAX, провёл серию тестов, собрал статистику и защитил проект.</p>
+        <div class="result">Независимая проверка отметила уровень «значительно выше среднего».</div>
+      </div>
+
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Проверка</th><th>Где смотреть</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>Код и тесты</b></td><td><a href="https://github.com/svyatoslavr2000-pixel/playwright-scraper-template" target="_blank" rel="noopener" style="color:var(--accent)">GitHub — playwright-scraper-template</a></td></tr>
+        <tr><td><b>CI и линтер</b></td><td>Actions: зелёный прогон, ruff чистый, 21 тест</td></tr>
+        <tr><td><b>Пример результата</b></td><td><code>examples/sample-output.csv</code> — 40 реальных строк</td></tr>
+        <tr><td><b>Портфолио</b></td><td><a href="https://svyatoslavr2000-pixel.github.io/" target="_blank" rel="noopener" style="color:var(--accent)">RU</a> · <a href="https://svyatoslavr2000-pixel.github.io/en.html" target="_blank" rel="noopener" style="color:var(--accent)">EN</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="terms">
+    <h2>Условия работы</h2>
+    <p class="sub">Всё, что обычно выясняется на четвёртой неделе, — здесь до старта.</p>
+
+    <table>
+      <thead>
+        <tr><th>Вопрос</th><th>Ответ</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>Ставка</b></td><td>$10–12/час или фикс. Мелкая задача (до 3 часов) — фикс $60. Средняя — $90–200.</td></tr>
+        <tr><td><b>Оплата</b></td><td>РФ: карта / СБП, чек самозанятого. КЗ: Золотая Корона, Юнистрим. ОАЭ: обсуждаем индивидуально.</td></tr>
+        <tr><td><b>Предоплата</b></td><td>50% на задачах от $150. До $150 — можно постоплатой после демо.</td></tr>
+        <tr><td><b>Сдача</b></td><td>Код в вашем репозитории (или архив), инструкция на одну страницу, 5-минутное видео «как запустить».</td></tr>
+        <tr><td><b>Гарантия</b></td><td>7 дней бесплатных правок по ТЗ. Дальше — новая задача или поддержка $50–100/мес.</td></tr>
+        <tr><td><b>NDA</b></td><td>Подписываю. Работаю под вашим договором, если он есть.</td></tr>
+        <tr><td><b>Связь</b></td><td>Telegram или почта, отвечаю в течение часа в рабочее время (UTC+7).</td></tr>
+        <tr><td><b>Возраст</b></td><td>16 лет, работаю как самозанятый, чек предоставляю. Отвечаю прямо, чтобы не было сюрпризов на этапе договора.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin:36px 0 8px;font-size:19px">Как проходит первая задача</h3>
+    <div class="steps">
+      <div class="step"><p><b>Присылаете 5 строк.</b> Что на входе, что на выходе, срок, бюджет. Скриншот или ссылка тоже подойдут.</p></div>
+      <div class="step"><p><b>Я отвечаю оценкой.</b> Часы, цена, дата. Если задача не моя — говорю сразу.</p></div>
+      <div class="step"><p><b>Делаю до 2 часов бесплатно.</b> Показываю рабочий кусок на ваших данных. Не подошло — вы ничего не платите и ничего не должны.</p></div>
+      <div class="step"><p><b>Дальше — по договорённости.</b> Фикс или почасовая, оплата после демо или с предоплатой 50%.</p></div>
+    </div>
+
+    <div class="chips">
+      <span class="chip">Python</span>
+      <span class="chip">Playwright</span>
+      <span class="chip">aiogram 3</span>
+      <span class="chip">FastAPI</span>
+      <span class="chip">n8n</span>
+      <span class="chip">Google Apps Script</span>
+      <span class="chip">PostgreSQL</span>
+      <span class="chip">Docker</span>
+      <span class="chip">pytest</span>
+      <span class="chip">Git / CI</span>
+    </div>
+  </section>
+
+  <div class="cta">
+    <h2>Пришлите задачу — отвечу с оценкой в течение часа</h2>
+    <p>Одно письмо, 5 строк: что нужно получить, к какому сроку, какой бюджет. Если задача не моя — скажу честно и не буду тратить ваше время.</p>
+    <a class="mail" href="mailto:svyatoslav.r2000@gmail.com?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%BF%D0%BE%D0%B4%D1%80%D1%8F%D0%B4%D1%87%D0%B8%D0%BA%D1%83">svyatoslav.r2000@gmail.com</a>
+    <div style="margin-top:22px">
+      <a class="btn btn-primary" href="mailto:svyatoslav.r2000@gmail.com?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%BF%D0%BE%D0%B4%D1%80%D1%8F%D0%B4%D1%87%D0%B8%D0%BA%D1%83">Написать на почту</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="wrap">
+  <div>© <span id="y">2026</span> Святослав Рудых · подряд для студий</div>
+  <div>
+    <a href="https://github.com/svyatoslavr2000-pixel" target="_blank" rel="noopener" style="color:var(--accent)">GitHub</a> ·
+    <a href="https://svyatoslavr2000-pixel.github.io/en.html" target="_blank" rel="noopener" style="color:var(--accent)">Portfolio EN</a> ·
+    <a href="https://kwork.ru/user/svyatoslavr2000" target="_blank" rel="noopener" style="color:var(--accent)">Kwork</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
