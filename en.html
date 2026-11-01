@@ -220,6 +220,15 @@
         <div class="result">Launch in 1 day instead of a 2-week build. Zero leads lost.</div>
       </div>
 
+      <div class="card case">
+        <div class="tag">Open source · Playwright</div>
+        <h3><a href="https://github.com/svyatoslavr2000-pixel/playwright-scraper-template" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">Scraper template that survives real sites</a></h3>
+        <p class="row"><b>Why:</b> most scraper scripts die on the first timeout and refetch everything after a crash. I kept rebuilding the same safeguards, so I published them instead of hiding them.</p>
+        <p class="row"><b>What's inside:</b> retries with backoff, resume from CSV/JSONL, robots.txt enforced by default, deduplication, Excel-safe CSV and JSONL export, Docker, 21 unit tests, CI on every push.</p>
+        <p class="row"><b>Proof:</b> <a href="https://github.com/svyatoslavr2000-pixel/playwright-scraper-template" target="_blank" rel="noopener">github.com/svyatoslavr2000-pixel/playwright-scraper-template</a> — one command against the demo site returns 30 rows.</p>
+        <div class="result">30 rows · 3 pages · 0 errors in 5 s. The second run with <code>--resume</code> adds zero duplicates.</div>
+      </div>
+
     </div>
   </section>
 
